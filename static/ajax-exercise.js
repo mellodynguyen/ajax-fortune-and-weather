@@ -19,9 +19,14 @@ document.querySelector('#get-fortune-button').addEventListener('click', showFort
 function showWeather(evt) {
   evt.preventDefault();
   // localhost:5000/weatherform -> prevent normal reaction for form 
-  
-  const url = '/weather.json';
+
+  const url = '/weather.json?${zipcode}';
   // JSON OBJECT: {temp: TEMP, forecast: FORECAST}
+  // page looks like
+  // {
+//   "forecast": "Kind of boring.",
+//   "temp": "68F"
+// }
 
 
   const zipcode = document.querySelector('#zipcode-field').value;
@@ -32,9 +37,13 @@ function showWeather(evt) {
   // GET request 
   fetch(url)
     //see if the response exists
-    .then((response) => response.text())
-    .then((weather) => {
-      document.querySelector('#weather-info').innerHTML = weather;
+
+    // weatherjson = request.json.get("#weather-form")
+
+    .then((response) => response.json())
+    .then((weatherJson) => {
+      document.querySelector('#weather-info').innerHTML = `Weather at ${zipcode}: ${weather}`;
+      //document.querySelector('#weather-info').innerHTML = `Weather at ${zipcode}: ${weather}`;
     })
     //`Weather at ${zipcode}: ${weather}`; <-- template to update #weather-info div
 }
