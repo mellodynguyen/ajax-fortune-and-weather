@@ -20,7 +20,7 @@ function showWeather(evt) {
   evt.preventDefault();
   // localhost:5000/weatherform -> prevent normal reaction for form 
 
-  const url = '/weather.json?${zipcode}';
+  const url = `/weather.json`;
   // JSON OBJECT: {temp: TEMP, forecast: FORECAST}
   // page looks like
   // {
@@ -37,15 +37,14 @@ function showWeather(evt) {
   // GET request 
   fetch(url)
     //see if the response exists
-
-    // weatherjson = request.json.get("#weather-form")
-
+    //parse the json
     .then((response) => response.json())
     .then((weatherJson) => {
-      document.querySelector('#weather-info').innerHTML = `Weather at ${zipcode}: ${weather}`;
-      //document.querySelector('#weather-info').innerHTML = `Weather at ${zipcode}: ${weather}`;
-    })
-    //`Weather at ${zipcode}: ${weather}`; <-- template to update #weather-info div
+      // weatherjson.value
+      // weatherjson[temp] weatherjson[forecast]
+      document.querySelector('#weather-info').innerHTML = `The temp is ${weatherJson.temp}, ${weatherJson.forecast}`;
+    }) // weatherJson.forecast
+    // console.log(weatherJson)
 }
 
 document.querySelector('#weather-form').addEventListener('submit', showWeather);
