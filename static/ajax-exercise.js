@@ -56,5 +56,38 @@ function orderMelons(evt) {
 
   // TODO: show the result message after your form
   // TODO: if the result code is ERROR, make it show up in red (see our CSS!)
-}
+
+  // route is /order-melons
+
+  // the keys of the JSON that we're sending has to match the keys the server is looking for 
+  // melon = request.json.get('melon_type')
+  // qty = int(request.json.get('qty'))
+  const formInputs = {
+    melon_type: document.querySelector('#melon-type-field').value,
+    qty: document.querySelector('#qty-field').value,
+  };
+  
+  // use fetch() to make a request to that route
+  // ('/api/order-melons)
+  // boiler plate - need this everytime you make a request to frontend 
+  fetch('/order-melons.json', {
+    method: 'POST',
+    body: JSON.stringify(formInputs),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      console.log(responseJson)
+      //update that melon info in the html somehow?
+      document.querySelector('#order-status').innerHTML = `you ordered something ${responseJson.code} ${responseJson.msg}`
+    }); // <div><div>
+        // <div>`you ordered something ${melon} ${quantity}` <>
+
+  const errorContainer = document.querySelector('#order-status');
+  errorContainer.classList.add('order-error')
+    // something.classListadd(order-error)
+  // take the returend reslt object and extract status code & message 
+};
 document.querySelector('#order-form').addEventListener('submit', orderMelons);
